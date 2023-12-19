@@ -6,9 +6,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -38,6 +41,7 @@ import com.app.imagepickerlibrary.replaceFragment
 import com.app.imagepickerlibrary.ui.fragment.FolderFragment
 import com.app.imagepickerlibrary.ui.fragment.ImageFragment
 import com.app.imagepickerlibrary.util.isAtLeast13
+import com.app.imagepickerlibrary.util.isAtLeast14
 import com.app.imagepickerlibrary.viewmodel.ImagePickerViewModel
 import com.yalantis.ucrop.UCrop
 import kotlinx.coroutines.launch
@@ -132,9 +136,11 @@ class ImagePickerActivity : AppCompatActivity(), View.OnClickListener {
             R.id.image_back_button -> {
                 onBackPressedDispatcher.onBackPressed()
             }
+
             R.id.image_camera_button -> {
                 showCamera()
             }
+
             R.id.image_done_button, R.id.text_done -> {
                 selectImages()
             }
@@ -186,8 +192,13 @@ class ImagePickerActivity : AppCompatActivity(), View.OnClickListener {
             Manifest.permission.READ_EXTERNAL_STORAGE
         }
         if (checkForPermission(permission)) {
-            replaceFragment(getInitialFragment())
-            viewModel.fetchImagesFromMediaStore()
+            if (isAtLeast14()) {
+                pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+            } else {
+                replaceFragment(getInitialFragment())
+                viewModel.fetchImagesFromMediaStore()
+            }
+
         } else {
             openCameraAfterPermission = false
             askPermission(permission)
@@ -207,6 +218,18 @@ class ImagePickerActivity : AppCompatActivity(), View.OnClickListener {
             this,
             permission
         ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
+        // Callback is invoked after the user selects a media item or closes the
+        // photo picker.
+        if (uri != null) {
+            checkForCropping(uri)
+            viewModel.fetchImagesFromMediaStore()
+            Log.d("PhotoPicker", "Selected URI: $uri")
+        } else {
+            Log.d("PhotoPicker", "No media selected")
+        }
     }
 
     private fun askPermission(vararg permission: String) {

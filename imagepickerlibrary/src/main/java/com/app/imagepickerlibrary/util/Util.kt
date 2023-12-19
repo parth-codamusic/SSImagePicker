@@ -28,6 +28,11 @@ internal fun isAtLeast13(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 }
 
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+internal fun isAtLeast14(): Boolean {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+}
+
 /**
  * Utility function to check if system picker is available or not on Android 11+.
  * The function is provided by google to check whether the photo picker is available or not
