@@ -40,6 +40,7 @@ import com.app.imagepickerlibrary.ui.fragment.ImageFragment
 import com.app.imagepickerlibrary.util.isAtLeast13
 import com.app.imagepickerlibrary.viewmodel.ImagePickerViewModel
 import com.yalantis.ucrop.UCrop
+import com.yalantis.ucrop.model.AspectRatio
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -268,12 +269,13 @@ class ImagePickerActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun getUCropOptions(): UCrop.Options {
         return UCrop.Options().apply {
-            setFreeStyleCropEnabled(pickerConfig.openCropOptions)
-            setHideBottomControls(!pickerConfig.openCropOptions)
+            setFreeStyleCropEnabled(false)
+            setHideBottomControls(true)
             setToolbarColor(getColorAttribute(R.attr.ssUCropToolbarColor))
             setStatusBarColor(getColorAttribute(R.attr.ssUCropStatusBarColor))
             setToolbarWidgetColor(getColorAttribute(R.attr.ssUCropToolbarWidgetColor))
             setActiveControlsWidgetColor(getColorAttribute(R.attr.ssUCropActiveControlWidgetColor))
+            withAspectRatio(1f, 1F)
             if (pickerConfig.compressImage) {
                 setCompressionQuality(pickerConfig.compressQuality)
             }
