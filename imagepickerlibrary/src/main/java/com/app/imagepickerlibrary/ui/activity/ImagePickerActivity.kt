@@ -269,7 +269,7 @@ class ImagePickerActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun getUCropOptions(): UCrop.Options {
         return UCrop.Options().apply {
-            setFreeStyleCropEnabled(false)
+            setFreeStyleCropEnabled(pickerConfig.openCropOptions)
             setHideBottomControls(true)
             setToolbarColor(getColorAttribute(R.attr.ssUCropToolbarColor))
             setStatusBarColor(getColorAttribute(R.attr.ssUCropStatusBarColor))
