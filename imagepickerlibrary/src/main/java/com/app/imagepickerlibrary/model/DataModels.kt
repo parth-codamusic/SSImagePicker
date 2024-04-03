@@ -26,7 +26,8 @@ internal data class PickerConfig(
     var openCropOptions: Boolean = false,
     var openSystemPicker: Boolean = false,
     var compressImage: Boolean = false,
-    var compressQuality: Int = 75
+    var compressQuality: Int = 75,
+    var freeStyleCrop: Boolean = false
 ) : Parcelable {
 
     companion object {

@@ -21,7 +21,8 @@ data class PickerOptions(
     val isDoneIcon: Boolean,
     val openCropOptions: Boolean,
     val openSystemPicker: Boolean,
-    val compressImage: Boolean
+    val compressImage: Boolean,
+    val freeSizeCrop: Boolean
 ) : Parcelable {
     companion object {
         fun default(): PickerOptions {
@@ -37,7 +38,8 @@ data class PickerOptions(
                 isDoneIcon = true,
                 openCropOptions = false,
                 openSystemPicker = false,
-                compressImage = false
+                compressImage = false,
+                freeSizeCrop = false
             )
         }
     }

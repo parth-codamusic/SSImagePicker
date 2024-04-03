@@ -150,7 +150,8 @@ class PickerOptionsBottomSheet : BottomSheetDialogFragment(), View.OnClickListen
             isDoneIcon = binding.doneSwitch.isChecked,
             openCropOptions = binding.openCropSwitch.isChecked,
             openSystemPicker = binding.systemPickerSwitch.isChecked,
-            compressImage = binding.compressImageSwitch.isChecked
+            compressImage = binding.compressImageSwitch.isChecked,
+            freeSizeCrop = false
         )
         dismiss()
         mListener?.onPickerOptions(pickerOptions)
