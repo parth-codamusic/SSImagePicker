@@ -269,13 +269,15 @@ class ImagePickerActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun getUCropOptions(): UCrop.Options {
         return UCrop.Options().apply {
-            setFreeStyleCropEnabled(false)
+            setFreeStyleCropEnabled(pickerConfig.openCropOptions)
             setHideBottomControls(true)
             setToolbarColor(getColorAttribute(R.attr.ssUCropToolbarColor))
             setStatusBarColor(getColorAttribute(R.attr.ssUCropStatusBarColor))
             setToolbarWidgetColor(getColorAttribute(R.attr.ssUCropToolbarWidgetColor))
             setActiveControlsWidgetColor(getColorAttribute(R.attr.ssUCropActiveControlWidgetColor))
-            withAspectRatio(1f, 1F)
+            if (pickerConfig.openCropOptions.not()) {
+                withAspectRatio(1f, 1f)
+            }
             if (pickerConfig.compressImage) {
                 setCompressionQuality(pickerConfig.compressQuality)
             }
